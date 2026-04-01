@@ -32,16 +32,25 @@ app = FastAPI(
     docs_url="/api/docs",
 )
 
+
 # ── CORS ─────────────────────────────────────────────────────
-# Auth is enforced via JWT bearer tokens, so wildcard origin is safe.
-# To restrict in future, set ALLOWED_ORIGINS env var (comma-separated).
-_origins_env = os.getenv("ALLOWED_ORIGINS", "*")
-ALLOWED_ORIGINS = _origins_env.split(",") if _origins_env != "*" else ["*"]
+# Haal de toegestane origins op uit de env, of gebruik een lijst met standaard waarden
+_origins_env = os.getenv("ALLOWED_ORIGINS")
+
+if _origins_env:
+    ALLOWED_ORIGINS = [origin.strip() for origin in _origins_env.split(",")]
+else:
+    # Voeg hier ALTIJD je Vercel-URL en localhost toe als fallback
+    ALLOWED_ORIGINS = [
+        "https://call-forge-dialer.vercel.app",
+        "http://localhost:5173",
+        "http://localhost:3000"
+    ]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
-    allow_credentials=ALLOWED_ORIGINS != ["*"],  # credentials=True incompatible with wildcard
+    allow_credentials=True,  # Nu we geen "*" gebruiken, mag dit op True
     allow_methods=["*"],
     allow_headers=["*"],
 )
