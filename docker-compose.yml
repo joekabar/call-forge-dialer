@@ -1,0 +1,46 @@
+# docker-compose.yml
+# Local development: runs backend + frontend together.
+# Usage:
+#   docker compose up --build
+#
+# The frontend dev server proxies /api → backend (port 8000)
+# so you never need to touch CORS in local dev.
+
+version: "3.9"
+
+services:
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env        # create from backend/.env.example
+    volumes:
+      - ./backend:/app        # hot reload — uvicorn watches for changes
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    healthcheck:
+      test: ["CMD", "python", "-c", "import httpx; httpx.get('http://localhost:8000/api/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend:
+    build:
+      context:  ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      - VITE_API_URL=http://localhost:8000
+      - VITE_BING_MAPS_KEY=${VITE_BING_MAPS_KEY}
+
+# For local dev without Docker, just run:
+#   cd backend && uvicorn main:app --reload
+#   cd frontend && npm run dev
+# The Vite proxy in vite.config.js handles /api routing automatically.

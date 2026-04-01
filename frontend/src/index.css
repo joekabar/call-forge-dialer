@@ -1,0 +1,93 @@
+/* SolarFlow Pro — Global CSS reset */
+/* Tailwind is NOT used — we use inline styles and CSS variables */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* ── Light mode CSS variables ─────────────────────────── */
+  --color-background-primary:   #ffffff;
+  --color-background-secondary: #f5f4f0;
+  --color-background-tertiary:  #eeede8;
+  --color-background-info:      #e6f1fb;
+  --color-background-success:   #eaf3de;
+  --color-background-warning:   #faeeda;
+  --color-background-danger:    #fcebeb;
+
+  --color-text-primary:   #1a1a18;
+  --color-text-secondary: #5f5e5a;
+  --color-text-tertiary:  #888780;
+  --color-text-info:      #0c447c;
+  --color-text-success:   #27500a;
+  --color-text-warning:   #633806;
+  --color-text-danger:    #791f1f;
+
+  --color-border-tertiary: rgba(0, 0, 0, 0.10);
+  --color-border-secondary: rgba(0, 0, 0, 0.20);
+  --color-border-primary:   rgba(0, 0, 0, 0.30);
+  --color-border-info:    #b5d4f4;
+  --color-border-success: #c0dd97;
+  --color-border-warning: #fac775;
+  --color-border-danger:  #f7c1c1;
+
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-xl: 16px;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background-primary:   #1c1c1a;
+    --color-background-secondary: #252523;
+    --color-background-tertiary:  #2c2c2a;
+    --color-background-info:      #042c53;
+    --color-background-success:   #173404;
+    --color-background-warning:   #412402;
+    --color-background-danger:    #501313;
+
+    --color-text-primary:   #e8e6de;
+    --color-text-secondary: #b4b2a9;
+    --color-text-tertiary:  #888780;
+    --color-text-info:      #b5d4f4;
+    --color-text-success:   #c0dd97;
+    --color-text-warning:   #fac775;
+    --color-text-danger:    #f7c1c1;
+
+    --color-border-tertiary:  rgba(255, 255, 255, 0.10);
+    --color-border-secondary: rgba(255, 255, 255, 0.18);
+    --color-border-primary:   rgba(255, 255, 255, 0.28);
+    --color-border-info:    #185fa5;
+    --color-border-success: #3b6d11;
+    --color-border-warning: #854f0b;
+    --color-border-danger:  #a32d2d;
+  }
+}
+
+html, body, #root {
+  height: 100%;
+  width:  100%;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  background: var(--color-background-tertiary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar       { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-border-secondary); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-border-primary); }
+
+/* Remove default button/input styles */
+button { font-family: inherit; cursor: pointer; }
+input, select, textarea { font-family: inherit; }
+a { color: inherit; text-decoration: none; }
