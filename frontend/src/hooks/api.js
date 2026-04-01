@@ -3,7 +3,11 @@
 // Central API client with automatic token refresh.
 // All hooks import from here — never use fetch() directly.
 
-const BASE_URL = import.meta.env.VITE_API_URL || '/api'
+
+const BASE_URL = import.meta.env.VITE_API_URL 
+  ? `${import.meta.env.VITE_API_URL}/api` 
+  : '/api';
+
 
 function getSession() {
   const raw = localStorage.getItem('sfp_session')
