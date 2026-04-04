@@ -1,5 +1,5 @@
 """
-SolarFlow Pro — FastAPI Backend
+Call Forge Dialer — FastAPI Backend
 """
 
 import os
@@ -28,30 +28,22 @@ from integrations.voiptiger_cdr import router as voiptiger_router  # noqa: E402
 # from ai.roi_calculator     import router as roi_router  # v2
 
 app = FastAPI(
-    title="SolarFlow Pro API",
+    title="Call Forge Dialer API",
     version="2.1.0",
     docs_url="/api/docs",
 )
 
 
 # ── CORS ─────────────────────────────────────────────────────
-# Haal de toegestane origins op uit de env, of gebruik een lijst met standaard waarden
-_origins_env = os.getenv("ALLOWED_ORIGINS")
-
-if _origins_env:
-    ALLOWED_ORIGINS = [origin.strip() for origin in _origins_env.split(",")]
-else:
-    # Voeg hier ALTIJD je Vercel-URL en localhost toe als fallback
-    ALLOWED_ORIGINS = [
-        "https://call-forge-dialer.vercel.app",
-        "http://localhost:5173",
-        "http://localhost:3000"
-    ]
+# Default to wildcard so any Vercel preview URL works.
+# Set ALLOWED_ORIGINS in Railway to a comma-separated list to restrict.
+_origins_env = os.getenv("ALLOWED_ORIGINS", "*")
+ALLOWED_ORIGINS = _origins_env.split(",") if _origins_env != "*" else ["*"]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
-    allow_credentials=True,  # Nu we geen "*" gebruiken, mag dit op True
+    allow_credentials=ALLOWED_ORIGINS != ["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -95,7 +87,7 @@ scheduler = AsyncIOScheduler()
 async def startup():
     scheduler.add_job(release_expired_locks, "interval", minutes=5)
     scheduler.start()
-    print("✅ SolarFlow Pro API started (telephony integration enabled)")
+    print("✅ Call Forge Dialer API started")
 
 @app.on_event("shutdown")
 async def shutdown():
