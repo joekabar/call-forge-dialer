@@ -21,15 +21,15 @@ import { useCallStore }     from '../store/callStore'
 import { useCampaignStore } from '../store/campaignStore'
 import { api }              from '../hooks/api'
 
-// Provider-specific device adapters (lazy loaded)
+// Provider-specific device adapters
 import { createTwilioDevice }  from './adapters/twilioAdapter'
+import { createTelnyxDevice }  from './adapters/telnyxAdapter'
 import { createManualDevice }  from './adapters/manualAdapter'
 
 const ADAPTER_MAP = {
   twilio:  createTwilioDevice,
+  telnyx:  createTelnyxDevice,
   manual:  createManualDevice,
-  // asterisk: createAsteriskDevice,  // ← add here when ready
-  // vonage:   createVonageDevice,
 }
 
 
