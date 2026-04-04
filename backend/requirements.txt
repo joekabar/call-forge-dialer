@@ -23,12 +23,11 @@ python-multipart>=0.0.6
 phonenumbers>=8.13.0
 
 # ── Telephony (provider-agnostic) ──────────────────────────
-# Twilio (current default provider)
+# Twilio (legacy / optional)
 twilio>=9.0.0
+
+# HTTP client — Telnyx REST API + VoIPTiger CDR API
+httpx>=0.27.0
 
 # Credential encryption (Fernet symmetric encryption)
 cryptography>=42.0.0
-
-# ── v2 additions (uncomment when deploying v2) ─────────────
-# httpx>=0.27.0          # Google Solar API calls
-# google-cloud-solar     # Google Solar API client

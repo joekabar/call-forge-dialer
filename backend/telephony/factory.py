@@ -18,20 +18,17 @@ from cryptography.fernet import Fernet
 
 from .base import TelephonyProvider, TelephonyCredentials
 from .twilio_provider import TwilioProvider
+from .telnyx_provider import TelnyxProvider
 
 logger = logging.getLogger(__name__)
 
 
 # ── Provider registry ─────────────────────────────────────────
-# To add a new provider:
-#   from .asterisk_provider import AsteriskProvider
-#   PROVIDER_REGISTRY["asterisk"] = AsteriskProvider
 
 PROVIDER_REGISTRY: Dict[str, Type[TelephonyProvider]] = {
-    "twilio":    TwilioProvider,
-    # "asterisk":  AsteriskProvider,       # ← uncomment when ready
-    # "vonage":    VonageProvider,          # ← uncomment when ready
-    # "telnyx":    TelnyxProvider,          # ← uncomment when ready
+    "twilio":  TwilioProvider,
+    "telnyx":  TelnyxProvider,
+    # "asterisk": AsteriskProvider,
 }
 
 
